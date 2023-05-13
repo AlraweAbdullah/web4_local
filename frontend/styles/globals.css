@@ -36,7 +36,10 @@ button {
   font-weight: bold;
 }
 
-
+.my-form-container{
+  border: 1px solid grey;
+  padding: 10px;
+}
 
 
 .link {

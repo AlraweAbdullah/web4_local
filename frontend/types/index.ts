@@ -1,20 +1,18 @@
 export interface Country{
-    id : number
     name: string
 }
 
 export interface Book{
-    id: number
     title: string
     pages: number
-    categories: Category[]
-    author: Author
+    categoryIds: Number[]
+    authorId: number
 }
 
 export interface Author{
-    id: number
+    id : number
     name: string
-    country: Country
+    country: string
 }
 
 export interface Category{
@@ -25,5 +23,12 @@ export interface Category{
 export interface StatusMessage{
     type: string
     message: string
+}
+
+
+
+export interface User{
+    username: string
+    password: string
 }
 

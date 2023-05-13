@@ -1,28 +1,27 @@
 import Head from 'next/head';
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import SignForm from '../components/users/signForm';
 
-import React from 'react'
-
-
-const Home: React.FC = () => {
-  return (
-    <>
+const Authintication: React.FC = () => {
+    return (
+        <>
+        <Head>
+            <title>Home</title>
+          </Head>
     
-    <Head>
-        <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Header></Header>
-          <main>
-            <section className="row justify-content-center min-vh-100">
-            </section>
-          </main>        
-      <Footer></Footer>
-    </>
-  
-  )
+          <Header></Header>
+            <main className="vh-100">
+               <h4 className="text-center">Authintication</h4>
+                <section className="row justify-content-evenly">
+                    <SignForm method="login" header="Login"/>
+                    <SignForm method="signup" header="Sign up"/>
+                </section>
+            </main> 
+          <Footer></Footer>
+        </>
+      
+      )  
 }
 
-export default Home
+export default Authintication

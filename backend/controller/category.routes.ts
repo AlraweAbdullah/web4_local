@@ -11,6 +11,12 @@
 *          name: 
 *            type: string
 *            description: Category name
+*      CategoryInput:
+*        type: object
+*        properties:
+*          name: 
+*            type: string
+*            description: Category name (must be unique)
 */
 
 
@@ -75,6 +81,36 @@ categoryRouter.get("/:id",async (req:Request, res:Response) =>{
     }
 })
 
+/**
+* @swagger
+* /categories:
+*   post:
+*     summary: Add a category
+*     requestBody: 
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             $ref: '#/components/schemas/CategoryInput'
+*     responses:
+*       200:
+*         description: The new category
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/Category'
+*       404:
+*         description: Error
+*/
 
+categoryRouter.post("/",async(req:Request, res: Response) =>{
+    const newCategory = req.body
+    try {
+        const category = await categoryService.addCategory({newCategory:newCategory})
+        res.status(200).json(category)
+    } catch (error) {
+        res.status(500).json({status: 'error', errorMessage: error.message})
+    }
+})
 
 export {categoryRouter}

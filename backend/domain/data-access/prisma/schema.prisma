@@ -44,3 +44,10 @@ model Book {
   
   @@unique([title, authorid])
 }
+
+
+model User {
+  id         Int        @id @default(autoincrement())
+  username   String     @unique
+  password   String
+}

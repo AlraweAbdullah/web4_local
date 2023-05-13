@@ -1,38 +1,70 @@
 import { Book } from "../types"
 
 const getAllBooks = async () => {
-    return await fetch(process.env.NEXT_PUBLIC_API_URL+ "/books")
+    return await fetch(process.env.NEXT_PUBLIC_API_URL+ "/books",{
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
+        }
+
+    })
 }
 
 const getBookById = async ({id}:{id:number}) => {
-    return await fetch(process.env.NEXT_PUBLIC_API_URL+ "/books/" + id)
+    return await fetch(process.env.NEXT_PUBLIC_API_URL+ "/books/" + id,{
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
+        }
+    })
 }
 
 const deleteBookById = async ({id}:{id:number}) => {
-    return  await fetch(process.env.NEXT_PUBLIC_API_URL+ "/books/" + id, {
+    return  await fetch(process.env.NEXT_PUBLIC_API_URL+ `/books/${id}`, {
         method: 'DELETE',
+        headers: {
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
+        }
     })
 
 }
 
 const getBookByTitle = async ({title}: {title:string}) => {
-    return fetch(process.env.NEXT_PUBLIC_API_URL+ "/books/title/" + title)
+    return fetch(process.env.NEXT_PUBLIC_API_URL+ `/books/title/${title}`, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
+        }
+    })
+
 }
 
-const addBook = async ({title, authorId, categoryIds, pages}:{title:string, authorId:number, categoryIds:number[], pages:number}) => {
+
+const addBook = async (book:Book) => {
    
-    console.log(categoryIds)
     return await fetch(process.env.NEXT_PUBLIC_API_URL + "/books",
     {
-        body: JSON.stringify({
-            "title": title,
-            "pages": pages,
-            "authorId": authorId,
-            "categoryIds": categoryIds
-        }),
-        method: "post",
+        body: JSON.stringify(book),
+        method: "POST",
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
+          }
+    })
+}
+
+const updateBook = async (book:Book) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/books",
+    {
+        body: JSON.stringify(book),
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json",
+            Authorization:  `Bearer ${sessionStorage.getItem("token")}`
           }
     })
 }
@@ -42,7 +74,8 @@ const BookService = {
     getBookById,
     deleteBookById,
     getBookByTitle,
-    addBook
+    addBook,
+    updateBook
 }
 
 export default BookService

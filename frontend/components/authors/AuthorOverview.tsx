@@ -19,14 +19,13 @@ const AuthorOverview: React.FC<Props> = ({ author }: Props) => {
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Country</th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{author.id}</td>
                                 <td>{author.name}</td>
-                                <td>{author.country.name}</td>
+                                <td>{author.country}</td>
                             </tr>
                         </tbody>
                     </table>

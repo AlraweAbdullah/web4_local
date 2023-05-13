@@ -1,6 +1,5 @@
 import React from "react"
 import { Book } from "../../types"
-import styles from "../../styles/Book.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faPen,  faTrash, faInfo} from '@fortawesome/free-solid-svg-icons'
 import Link from "next/link"

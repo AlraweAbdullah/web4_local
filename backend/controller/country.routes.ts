@@ -25,6 +25,7 @@
 */
 import express, {Request, Response} from "express"
 import countryService from "../service/country.service"
+import { CountryInput } from "../types/types"
 const countryRouter = express.Router()
 
 /**
@@ -81,7 +82,7 @@ countryRouter.get("/:id",async (req:Request, res:Response) =>{
 *         description: Error
 */
 countryRouter.put("/",async (req:Request, res:Response) =>{
-    const countryInput = req.body
+    const countryInput = <CountryInput>req.body
     try {
         const country = await countryService.updateCountry(countryInput)
         res.status(200).json(country)
@@ -90,11 +91,10 @@ countryRouter.put("/",async (req:Request, res:Response) =>{
     }
 })
 
-export {countryRouter}
 
 
 /**
-* @swagger
+ * @swagger
 * /countries:
 *   get:
 *     summary: Get list of countries.
@@ -104,7 +104,7 @@ export {countryRouter}
 *         content:
 *           application/json:
 *             schema:
-*               $ref: '#/components/schemas/CountryInput'
+*               $ref: '#/components/schemas/Country'
 *       404:
 *         description: Error
 *    
@@ -117,3 +117,5 @@ countryRouter.get("/",async(req:Request, res:Response) =>{
         res.status(500).json({status:'error', errorMessage: error.message})
     }
 })
+
+export {countryRouter}

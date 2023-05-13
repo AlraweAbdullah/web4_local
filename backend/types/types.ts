@@ -10,10 +10,20 @@ export type BookInput = {
 export type AuthorInput = {
     id: number
     name: string
-    country: CountryInput
+    country: string
 }
 
 export type CountryInput = {
     id: number
     name: string
+}
+
+export type CategoryInput = {
+    id: number
+    name : string
+}
+
+export type UserInput = {
+    username: string
+    password: string
 }

@@ -22,11 +22,21 @@
 *            items: 
 *               $ref: '#/components/schemas/Country'
 *
-*       
-*/
+*      AuthorInput:
+*        type: object
+*        properties:
+*          name: 
+*            type: string
+*            description: Author name (must be unique)
+*          country: 
+*            type: string
+*            description: Author name
+*           
+*/       
 
 import express, {Request, Response} from "express"
 import authorService from "../service/author.service"
+import { AuthorInput } from "../types/types";
 const authorRouter = express.Router()
 /**
 * @swagger
@@ -78,13 +88,44 @@ authorRouter.get("/",async(req:Request, res:Response) =>{
 */
 authorRouter.get("/:id",async (req:Request, res:Response) =>{
     try{
-        const int:number = parseInt(req.params.id)
-        const author = await authorService.getAuthorById({id: int});
+        const id:number = parseInt(req.params.id)
+        const author = await authorService.getAuthorById({id: id});
         res.status(200).json(author)
     }catch(error){
         res.status(500).json({status:'error', errorMessage: error.message})
     }
 })
 
+/**
+* @swagger
+* /authors:
+*   post:
+*     summary: Add an author
+*     requestBody: 
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             $ref: '#/components/schemas/AuthorInput'
+*     responses:
+*       200:
+*         description: The new author
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/Author'
+*       404:
+*         description: Error
+*/
+
+authorRouter.post("/",async(req:Request, res: Response) =>{
+    const newAuthor = <AuthorInput>req.body
+    try {
+        const author = await authorService.addAuthor(newAuthor)
+        res.status(200).json(author)
+    } catch (error) {
+        res.status(500).json({status: 'error', errorMessage: error.message})
+    }
+})
 
 export {authorRouter}

@@ -1,4 +1,3 @@
-import { Book } from "./book";
 import { Country } from "./country"
 export class Author {
     readonly id: number;

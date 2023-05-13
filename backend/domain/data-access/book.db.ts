@@ -1,21 +1,32 @@
 import { mapToBook, mapToBooks } from "../../mapper/book.mapper"
-import { database } from "../../util/db.server"
+import { database, Prisma} from "../../util/db.server"
 import { Book } from "../model/book"
-import type { BookInput } from "../../types/types";
-import { create } from "domain";
 
-const addBook = async ({newBook}:{newBook: BookInput}):Promise<Book> => {
+const addBook = async (
+    {
+        title,
+        authorId,
+        pages,
+        categoryIds}:
+    {   
+        title:string,
+        authorId:number,
+        pages:number,
+        categoryIds:number[]
+    }
+    
+    ):Promise<Book> => {
     
     try {
         const bookPrisma = await database.book.create({
             data:{
-                title: newBook.title,
+                title:title,
+                pages:pages,
                 author:{
-                    connect:{id:newBook.authorId}
+                    connect:{id:authorId}
                 },
-                pages: newBook.pages,
                 categories:{ 
-                    connect: newBook.categoryIds.map((categoryId) => ({ id: categoryId })),
+                    connect: categoryIds.map((categoryId) => ({ id: categoryId })),
                 }
             },
             include:{
@@ -25,6 +36,11 @@ const addBook = async ({newBook}:{newBook: BookInput}):Promise<Book> => {
         });
         return mapToBook(bookPrisma)
     } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new Error(`Author with id {${authorId}} already have book with title {${title}}`) 
+            }
+        }
         throw new Error(error.message) 
     }
 
@@ -93,21 +109,36 @@ const deleteBookById = async ({id}: {id:number}) :  Promise<Book> => {
       return mapToBook(deleteBook)
 }
 
-const updateBook = async ({updateBook}:{updateBook: BookInput}):Promise<Book> => {
+const updateBook = async ({
+    id,
+    title,
+    pages,
+    authorId,
+    categoryIds
+}:{
+    id: number,
+    title: string,
+    pages: number,
+    authorId: number,
+    categoryIds: number []
+}):Promise<Book> => {
       try {
         const bookPrisma = await database.book.update({
             where: {
-                id: updateBook.id
+              id:id
             },
             data: {
-                title: updateBook.title,
-                pages: updateBook.pages,
+                title: title,
+                pages: pages,
                 author:{
                     connect:{
-                        id : updateBook.authorId
+                        id : authorId
                     }
+                },
+                categories:{
+                    set:[],
+                    connect:categoryIds.map((categoryId) => ({ id: categoryId }))
                 }
-                    
             },
             include:{
                 categories: true,
@@ -115,9 +146,12 @@ const updateBook = async ({updateBook}:{updateBook: BookInput}):Promise<Book> =>
             }});
         return mapToBook(bookPrisma)
     } catch (error) {
-        throw new Error(error.message) 
-    }
-
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+                throw new Error(`Author with id {${authorId}} already have book with title {${title}}`) 
+            }
+        }
+        throw new Error(error.message)     }
 }
 
 export default {

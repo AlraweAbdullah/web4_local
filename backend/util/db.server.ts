@@ -18,5 +18,9 @@ type CategoryPrisma = Prisma.CategoryGetPayload<{
 }>
 
 
+type userPrisma = Prisma.UserGetPayload<{
+}>
 
-export { database, AuthorPrisma, BookPrisma, CountryPrisma, CategoryPrisma}
+
+
+export { database, AuthorPrisma, BookPrisma, CountryPrisma, CategoryPrisma , Prisma, userPrisma}

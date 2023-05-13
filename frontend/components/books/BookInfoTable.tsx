@@ -6,7 +6,7 @@ import { faArrowLeft} from "@fortawesome/free-solid-svg-icons"
 import styles from "../../styles/Book.module.css"
 
 type Props = {
-    book : Book
+    book
 }
 
 

@@ -28,6 +28,10 @@
 *      BookInput:
 *        type: object
 *        properties:
+*          id:
+*            type: number
+*            format: int64
+*            description : Id of hte updated book
 *          title: 
 *            type: string
 *            description: Book title
@@ -76,9 +80,9 @@ const bookRouter = express.Router()
 
 
 bookRouter.post('/', async(req:Request, res: Response) => {
-    const newBook = req.body
+    const newBook = <BookInput>req.body
     try {
-        const book = await bookService.addBook({newBook:newBook})
+        const book = await bookService.addBook(newBook)
         res.status(200).json(book)
     } catch (error) {
         res.status(500).json({status: 'error', errorMessage: error.message})
@@ -233,11 +237,13 @@ bookRouter.delete("/:id",async (req:Request, res:Response) =>{
 *         description: Error
 */
 bookRouter.put("/",async (req:Request, res:Response) =>{
-    const bookInput:BookInput = req.body
-    console.log(bookInput)
-
-   
-})
+    const book = <BookInput>req.body
+    try {
+        const newBook = await bookService.updateBook(book)
+        res.status(200).json(newBook)
+    } catch (error) {
+        res.status(500).json({status: 'error', errorMessage: error.message})
+    }})
 
 
 

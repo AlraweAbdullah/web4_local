@@ -35,7 +35,6 @@ const SearchBooks : React.FC =() => {
         const data = await response.json()
 
         if(response.status === 200){
-            sessionStorage.setItem("title", title)
             setStatusMessage({
                 type: "success",
                 message: "Books found"

@@ -1,43 +1,43 @@
 import Head from "next/head"
 import Header from "../../components/Header"
-import AuthorsOverview from "../../components/authors/AuthorsOverviewTable"
-import AuthorService from "../../services/AuthorService"
+import CategoriesOverview from "../../components/categories/CategoriesOverviewTable"
+import CategoryService from "../../services/CategoryService"
 import { useEffect, useState } from "react"
 import { Author } from "../../types"
 
 
 const Author: React.FC = () => {
-    const [authors, setAuthors] = useState<Array<Author>>()
-    const getAllAuthors = async () => {
-        AuthorService.getAllAuthors()
+    const [categories, setCategories] = useState<Array<Author>>()
+    
+    const getAllCategories = async () => {
+        CategoryService.getAllCategories()
         .then((res) => res.json())
-        .then ((authors) => setAuthors(authors))
+        .then ((categories) => setCategories(categories))
         .catch((error) => {
             console.log(error)
         })
     }
 
     useEffect(() => {
-        getAllAuthors()
+        getAllCategories()
     }, [])
 
     return (
         <>
             <Head>
-                <title>Authors</title>
+                <title>Categories</title>
             </Head>
             <Header></Header>
             <main>
                 <section className="row justify-content-center min-vh-100">
                     <div className="col-6">
 
-                        <AuthorsOverview  authors = {authors}/>
+                        <CategoriesOverview categories = {categories}/>
                     </div>
                 </section>
             </main>
         </>
-    )      
-     
+    )       
 }
 
 export default Author

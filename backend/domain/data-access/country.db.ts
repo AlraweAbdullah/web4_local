@@ -1,6 +1,7 @@
 import { database } from "../../util/db.server";
 import { mapToCountry, mapToCountries} from "../../mapper/country.mapper";
 import { Country } from "../model/country";
+import { CountryInput } from "../../types/types";
 
 
 const getCountryById = async ({id}: {id:number}) : Promise<Country> =>{
@@ -25,14 +26,14 @@ const getAllCountries = async () : Promise<Country[]> =>{
     return mapToCountries(country)
 }
 
-const updateCountry = async ({id, name}:{id:number, name:string}) : Promise<Country> =>{
-    await getCountryById({id:id}) // Check if country exists by id 
+const updateCountry = async ({id, name}:{id:number,name:string}) : Promise<Country> =>{
+    await getCountryById({id}) // Check if country exists by id 
     const country = await database.country.update({
         where: {
-            id: id
+            id
         },
         data: {
-            name: name
+            name
         },
 })
     return mapToCountry(country)

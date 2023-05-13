@@ -15,6 +15,10 @@ const Header : React.FC = () => {
                 <Link href="/books/search"  className={`link nav-link px-4 fs-5 ${router.pathname == "/books/search"? "active":""}`}>Seach Book</Link>
                 <Link href="/authors" className={`link nav-link px-4 fs-5 ${router.pathname == "/authors"? "active":""}`}>Authors</Link>                
                 <Link href="/authors/add"  className={`link nav-link px-4 fs-5 ${router.pathname == "/authors/add"? "active":""}`}>Add Author</Link>
+                <Link href="/categories"  className={`link nav-link px-4 fs-5 ${router.pathname == "/categories"? "active":""}`}>Categories</Link>
+                <Link href="/categories/add"  className={`link nav-link px-4 fs-5 ${router.pathname == "/categories/add"? "active":""}`}>Add Category</Link>
+
+           
             </nav>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 

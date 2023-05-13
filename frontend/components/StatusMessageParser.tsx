@@ -8,7 +8,7 @@ const StatusMessageParser: React.FC<Props> = ({statusMessage}) => {
     return (
         <div>
             {statusMessage && (
-                <p className={`text-center mb-4 alert ${statusMessage.type === "error" ? "alert-danger": "alert-success"}`}>{statusMessage.message}</p>
+                <p className={`text-center mb-4 alert ${statusMessage.type === "success" ? "alert-success":"alert-danger"}`}>{statusMessage.message}</p>
             )}
         </div>
     )

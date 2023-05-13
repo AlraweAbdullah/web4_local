@@ -1,57 +1,28 @@
-import { useRouter } from "next/router"
-import Header from "../../../components/Header"
-import BookService from "../../../services/BookService"
-import { useEffect, useState } from "react"
 import Head from "next/head"
-import { Book } from "../../../types"
-import BookToUpdate from "../../../components/books/UpdateBookForm"
+import Header from "../../../components/Header"
+import Footer from "../../../components/Footer"
+import UpdateBook from "../../../components/books/BookUpdateForm"
 
-const BookInfo: React.FC = () =>{
-    const router = useRouter()
-
-    const [book, setBook] = useState<Book>()
-
-    const bookToDelete = async ()=> {
-        const bookId =  Number(router.query.bookId)
-        BookService.getBookById({id:bookId}).
-        then((res) => res.json()).     
-        then((book) => {
-            const hasError = book.errorMessage 
-            if(hasError === undefined){
-                setBook(book)
-            }
-            else{
-                alert(hasError)
-                router.push("/books")
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            
-        })
-
-    }
-
-    useEffect(() =>{
-        if(router.isReady){
-            bookToDelete()
-        }
-    },[router.isReady])
-
-    return ( 
+const Update: React.FC = () => {
+   return (
         <>
             <Head>
-                <title>Delete Book</title>
+                <title>Update Book</title>
             </Head>
             <Header></Header>
-            
+            <h4 className="text-center mb-4">Add Book</h4>
             <main>
-                <section className="row justify-content-center">
-                    <BookToUpdate book={book}/>
+                <section className="row justify-content-center min-vh-100">
+                    <div className="col-4">
+                        <UpdateBook />
+                    </div>
                 </section>
-            </main>        
-        </> 
+            </main> 
+        <   Footer></Footer>
+
+        </>    
     )
 }
 
-export default BookInfo
+export default Update
+
